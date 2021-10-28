@@ -1,0 +1,43 @@
+#!/bin/bash
+#
+# Job script to for munit fitting and imaging
+# Options and arguments: -N {#nodes} -t {time} {python script to run} {its arguments}
+#
+# Resource allocation
+#
+#SBATCH -J analysis
+#SBATCH -N 20
+#SBATCH -p development
+#SBATCH --ntasks-per-node 1
+#SBATCH -t 02:00:00
+#SBATCH -o output.analysis.out
+#SBATCH -e error.analysis.err
+#SBATCH -A AST20023
+
+# Loading modules and exporting variables
+
+module load launcher
+#module load phdf5
+#module load gsl
+
+#export LAUNCHER_WORKDIR=$PWD
+#export LAUNCHER_JOB_FILE=$PWD/$1
+export LAUNCHER_PPN=1
+export LAUNCHER_BIND=1
+export LAUNCHER_BIND_HT=0
+
+MAX_NUM_THREADS=$SLURM_CPUS_ON_NODE
+export OMP_NUM_THREADS=$(( $MAX_NUM_THREADS / $LAUNCHER_PPN ))
+
+echo $LAUNCHER_NPROCS
+echo "OMP_NUM_THREADS="$OMP_NUM_THREADS
+#echo "LAUNCHER_WORKDIR="$LAUNCHER_WORKDIR
+#echo "LAUNCHER_JOB_FILE="$LAUNCHER_JOB_FILE
+echo "ntasks-per-node="$SLURM_TASKS_PER_NODE
+echo "LAUNCHER_PPN="$LAUNCHER_PPN
+
+# Launching application
+# Not doing that here since we'll start Launcher from the compute nodes
+# $LAUNCHER_DIR/paramrun
+
+python3 main.py -p model.par

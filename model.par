@@ -1,0 +1,30 @@
+#parameter file for computing grmhd diagnostics
+
+#paths
+#dumpsdir /scratch1/03002/bprather/dumps/MAD/a-0.94/288x128x128_KHARMA_2041/dumps
+dumpsdir = /scratch1/07480/tg867798/v3/MAD/a+0.5/288x128x128_KHARMA_2041_dumps
+grmhddir /scratch1/07480/tg867798/v3_grmhd_analysis/GRMHD
+
+#adibatic indices (because KHARMA doesn't dump this)
+game 1.333333
+gamp 1.666667
+#diagnostic parameters
+dstart 0
+dlast LAST
+
+#compute time-average of quantities in time intervals
+intervals 1
+dstart0 1000
+dstart1 2000
+dstart2 3000
+dstart3 4000
+dstart4 5000
+
+#M over which to smooth fluxes
+flux_smoothed 200
+
+#radius at which jet power is to be computed
+rout 100
+
+#path to GRMHD directory
+combined_plots 0
